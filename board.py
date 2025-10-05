@@ -1,4 +1,5 @@
 from pieces import *
+
 class Board:
     def __init__(self):
         self.matrix : list[list[Piece]] = [
@@ -69,3 +70,32 @@ class Board:
         if self.is_out_of_bounce(position):
             return
         self.matrix[position.y][position.x] = piece
+
+    
+    def move_helper(self, move: Move):
+        self.set_piece(move.destination, self.get_piece(move.start))
+        self.set_piece(move.start, EmptyPiece())
+        if not self.white_castling_lost and (move.start in [Coordinate(0,0), Coordinate(7,0), Coordinate(3,0)]):
+            self.white_castling_lost = True
+        if not self.black_castling_lost and (move.start in [Coordinate(0,7), Coordinate(7,7), Coordinate(3,7)]):
+            self.black_castling_lost = True
+
+    def move(self, move:Move):
+        self.move_helper(move)
+        # castling
+        if move == Move(Coordinate(3,0), Coordinate(1,0)):
+            self.move_helper(Move(Coordinate(0, 0), Coordinate(2, 0)))
+        if move == Move(Coordinate(0,0), Coordinate(2,0)):
+            self.move_helper(Move(Coordinate(3, 0), Coordinate(1, 0)))
+        if move == Move(Coordinate(3,0), Coordinate(5,0)):
+            self.move_helper(Move(Coordinate(7, 0), Coordinate(4, 0)))
+        if move == Move(Coordinate(7,0), Coordinate(4,0)):
+            self.move_helper(Move(Coordinate(3, 0), Coordinate(5, 0)))
+        if move == Move(Coordinate(3,7), Coordinate(1,7)):
+            self.move_helper(Move(Coordinate(0, 7), Coordinate(2, 7)))
+        if move == Move(Coordinate(0,7), Coordinate(2,7)):
+            self.move_helper(Move(Coordinate(3, 7), Coordinate(1, 7)))
+        if move == Move(Coordinate(3,7), Coordinate(5,7)):
+            self.move_helper(Move(Coordinate(7, 7), Coordinate(4, 7)))
+        if move == Move(Coordinate(7,7), Coordinate(4,7)):
+            self.move_helper(Move(Coordinate(3, 7), Coordinate(5, 7)))

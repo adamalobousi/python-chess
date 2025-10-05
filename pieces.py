@@ -1,6 +1,6 @@
 import copy
-from board import Board
 from coordinate import Coordinate, Move
+
 class Piece:
     def __init__(self, is_white):
         self.is_white = is_white
@@ -8,7 +8,7 @@ class Piece:
     def __str__(self) -> str:
         return ""
 
-    def get_legal_moves(self, board:Board, position):
+    def get_legal_moves(self, board, position):
         return []
     
 
@@ -19,7 +19,6 @@ class EmptyPiece(Piece):
     def __str__(self):
         return "*"
     
-    
 
 class Pawn(Piece):
     def __str__(self):
@@ -28,7 +27,7 @@ class Pawn(Piece):
         else:
             return 'p'
 
-    def get_legal_moves(self, board:Board, position:Coordinate):
+    def get_legal_moves(self, board, position:Coordinate):
         legal_moves = []
         # for white:
         if self.is_white:
@@ -110,7 +109,7 @@ class Knight(Piece):
         else:
             return 'n'
         
-    def get_legal_moves(self, board:Board, position:Coordinate):
+    def get_legal_moves(self, board, position:Coordinate):
         legal_moves = []
         # check all possibilities
         if board.is_empty(Coordinate(position.x + 2, position.y + 1)) or board.is_piece(Coordinate(position.x + 2, position.y + 1), not self.is_white):
@@ -139,7 +138,7 @@ class Bishop(Piece):
         else:
             return 'b'
 
-    def get_legal_moves(self, board:Board, position):
+    def get_legal_moves(self, board, position):
         legal_moves = []
         # all directions
         for n in range(1, 8):

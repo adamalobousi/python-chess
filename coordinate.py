@@ -16,3 +16,6 @@ class Move:
     
     def __str__(self) -> str:
         return str(self.start) + "->" + str(self.destination)
+    
+    def __eq__(self, value):
+        return isinstance(value, Move) and self.start == value.start and self.destination == value.destination
