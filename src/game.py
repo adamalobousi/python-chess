@@ -1,24 +1,23 @@
-from board import Board
-from coordinate import Coordinate, Move
-from pieces import *
+from src.board import Board
+from src.coordinate import Coordinate, Move
+from src.pieces import *
 
 class Game:
     def __init__(self):
         self.board = Board()
         self.white_turn = 1
 
-
-
-    
-
     def make_move(self, move_string = None):
         try:
             if move_string == None:
-                xs, ys, xd, yd = map(str, input("enter move:"))
+                if self.white_turn:
+                    xs, ys, xd, yd = map(str, input("White's turn. Enter move:"))
+                else:
+                    xs, ys, xd, yd = map(str, input("Black's turn. Enter move:"))
+                print()
             else:
                 xs, ys, xd, yd = map(str, move_string)
         except:
-            print("invalid input")
             return False
         xs = 7 - ((ord(xs) - 97))
         ys = int(ys) - 1
@@ -35,13 +34,18 @@ class Game:
         
 
     def play_round(self):
+        print("-------------------")
+        print("Game started")
+        print()
         print(self.board)
         while True:
             if self.board.get_all_legal_moves == []:
-                print("checkmate!")
+                if self.white_turn:
+                    print("Checkmate! Black wins")
+                else: print("Checkmate! White wins")
                 break
             while not self.make_move():
-                print("illegal move")
+                print("Illegal move. Enter again")
             print(str(self.board))
             self.white_turn = not self.white_turn
 
