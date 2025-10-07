@@ -1,6 +1,6 @@
-from src.board import Board
-from src.coordinate import Coordinate, Move
-from src.pieces import *
+from chess.board import Board
+from chess.coordinate import Coordinate, Move
+from chess.pieces import *
 
 class Game:
     def __init__(self):

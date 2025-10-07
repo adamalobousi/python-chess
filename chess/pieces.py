@@ -1,5 +1,5 @@
 import copy
-from src.coordinate import Coordinate, Move
+from chess.coordinate import Coordinate, Move
 
 class Piece:
     def __init__(self, is_white):

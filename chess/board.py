@@ -1,4 +1,4 @@
-from src.pieces import *
+from chess.pieces import *
 
 class Board:
     def __init__(self):
