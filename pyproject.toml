@@ -1,0 +1,6 @@
+[project]
+name = "chess"
+version = "0.1.0"
+description = "chess library"
+authors = [{ name = "Adam Alobousi" }]
+dependencies = []
