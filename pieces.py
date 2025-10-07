@@ -35,7 +35,7 @@ class Pawn(Piece):
             if board.is_empty(Coordinate(position.x, position.y+1)):
                 legal_moves.append(Move(position, Coordinate(position.x, position.y+1)))
             # two forward
-            if board.is_empty(Coordinate(position.x, position.y+1)) and board.is_empty(Coordinate(position.x, position.y+2)):
+            if board.is_empty(Coordinate(position.x, position.y+1)) and board.is_empty(Coordinate(position.x, position.y+2)) and position.y == 1:
                 legal_moves.append(Move(position, Coordinate(position.x, position.y+2)))
             # right diagonal
             if board.is_piece(Coordinate(position.x+1, position.y+1), 0):
@@ -43,13 +43,20 @@ class Pawn(Piece):
             # left diagonal
             if board.is_piece(Coordinate(position.x-1, position.y+1), 0):
                legal_moves.append(Move(position, Coordinate(position.x-1, position.y+1)))
+            # en_passant
+            if Coordinate(position.x-1, position.y) == board.en_passant:
+               legal_moves.append(Move(position, Coordinate(position.x-1, position.y+1)))
+               
+            if Coordinate(position.x+1, position.y) == board.en_passant:
+               legal_moves.append(Move(position, Coordinate(position.x+1, position.y+1)))
+
         # for black:
         else:
             # one forward
             if board.is_empty(Coordinate(position.x, position.y-1)):
                 legal_moves.append(Move(position, Coordinate(position.x, position.y-1)))
             # two forward
-            if board.is_empty(Coordinate(position.x, position.y-1)) and board.is_empty(Coordinate(position.x, position.y-2)):
+            if board.is_empty(Coordinate(position.x, position.y-1)) and board.is_empty(Coordinate(position.x, position.y-2)) and position.y == 6:
                 legal_moves.append(Move(position, Coordinate(position.x, position.y-2)))
             # right diagonal
             if board.is_piece(Coordinate(position.x+1, position.y-1), 1):
@@ -57,6 +64,11 @@ class Pawn(Piece):
             # left diagonal
             if board.is_piece(Coordinate(position.x-1, position.y-1), 1):
                legal_moves.append(Move(position, Coordinate(position.x-1, position.y-1)))
+            # en_passant
+            if Coordinate(position.x-1, position.y) == board.en_passant:
+               legal_moves.append(Move(position, Coordinate(position.x-1, position.y-1)))
+            if Coordinate(position.x+1, position.y) == board.en_passant:
+               legal_moves.append(Move(position, Coordinate(position.x+1, position.y-1)))
         return legal_moves
     
     
@@ -250,6 +262,7 @@ class King(Piece):
             return 'K'
         else:
             return 'k'
+    
 
     def get_legal_moves(self, board, position):
         legal_moves = []
@@ -260,17 +273,7 @@ class King(Piece):
                 if i == j == 0:
                     continue
                 if board.is_empty(Coordinate(position.x + i, position.y + j)) or board.is_piece(Coordinate(position.x + i, position.y + j), not self.is_white):
-                    # simulate this move on a new board
-                    simulation_board = copy.deepcopy(board)
-                    simulation_board.set_piece(position, EmptyPiece())
-                    simulation_board.set_piece(Coordinate(position.x + i, position.y + j), self)
-                    # check if destination is a threatend square
-                    is_legal = True
-                    for move in simulation_board.get_all_legal_moves(not self.is_white, True):
-                        if move.destination == Coordinate(position.x + i, position.y + j):
-                            is_legal = False
-                    if is_legal:
-                        legal_moves.append(Move(position, Coordinate(position.x + i, position.y + j)))
+                    legal_moves.append(Move(position, Coordinate(position.x + i, position.y + j)))
         # check long castling
         if (not board.white_castling_lost and self.is_white) or (not board.black_castling_lost and not self.is_white):
             is_legal = True

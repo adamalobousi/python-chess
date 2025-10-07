@@ -14,12 +14,16 @@ class Game:
     def make_move(self, move_string = None):
         try:
             if move_string == None:
-                xs, ys, xd, yd = map(int, input("enter move:"))
+                xs, ys, xd, yd = map(str, input("enter move:"))
             else:
-                xs, ys, xd, yd = map(int, move_string)
+                xs, ys, xd, yd = map(str, move_string)
         except:
             print("invalid input")
             return False
+        xs = 7 - ((ord(xs) - 97))
+        ys = int(ys) - 1
+        xd = 7 - (ord(xd) - 97)
+        yd = int(yd) - 1
         start = Coordinate(xs, ys)
         destination = Coordinate(xd, yd)
         move = Move(start, destination)
@@ -31,7 +35,11 @@ class Game:
         
 
     def play_round(self):
+        print(self.board)
         while True:
+            if self.board.get_all_legal_moves == []:
+                print("checkmate!")
+                break
             while not self.make_move():
                 print("illegal move")
             print(str(self.board))
@@ -41,10 +49,12 @@ class Game:
 
     def play_automated_round(self, list):
         for n in list:
+            print(str(n))
             if not self.make_move(n):
                 print("illegal move")
-            print(str(self.board))
-            self.white_turn = not self.white_turn
-
-
-
+            else: 
+                print(str(self.board))
+                self.white_turn = not self.white_turn
+            if self.board.get_all_legal_moves == []:
+                print("checkmate!")
+                break
