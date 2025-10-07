@@ -19,6 +19,7 @@ A classic **Chess Game** implemented in Python, featuring two-player mode.
 ```bash
 git clone https://github.com/adamalobousi/python-chess.git
 cd python-chess.git
+```
 
 ## How to play
 
