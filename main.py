@@ -1,4 +1,4 @@
-import src.game
+import chess.game
 
 example_game = [
         "d2d4","g8f6","g1f3","g7g6",
@@ -16,7 +16,7 @@ example_game = [
         ]
 
 def main():
-    game_instance = src.game.Game()
+    game_instance = chess.game.Game()
     print("Choose a game mode:")
     print("1. Example game")
     print("2. Interactive game")
