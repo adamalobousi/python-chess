@@ -1,6 +1,7 @@
 from chess.board import Board
 from chess.coordinate import Coordinate, Move
 from chess.pieces import *
+from chess.move_generator import MoveGenerator
 
 class Game:
     def __init__(self):
@@ -26,7 +27,7 @@ class Game:
         start = Coordinate(xs, ys)
         destination = Coordinate(xd, yd)
         move = Move(start, destination)
-        all_moves = self.board.get_all_legal_moves(self.white_turn)
+        all_moves = MoveGenerator.get_all_legal_moves(self.board, self.white_turn)
         if move in all_moves:
             self.board.move(move)
             return True
@@ -39,7 +40,7 @@ class Game:
         print()
         print(self.board)
         while True:
-            if self.board.get_all_legal_moves == []:
+            if MoveGenerator.get_all_legal_moves(self.board, self.white_turn) == []:
                 if self.white_turn:
                     print("Checkmate! Black wins")
                 else: print("Checkmate! White wins")
@@ -59,6 +60,6 @@ class Game:
             else: 
                 print(str(self.board))
                 self.white_turn = not self.white_turn
-            if self.board.get_all_legal_moves == []:
+            if MoveGenerator.get_all_legal_moves(self.board, self.white_turn) == []:
                 print("checkmate!")
                 break

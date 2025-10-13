@@ -1,4 +1,3 @@
-import copy
 from chess.coordinate import Coordinate, Move
 
 class Piece:
@@ -265,6 +264,7 @@ class King(Piece):
     
 
     def get_legal_moves(self, board, position):
+        from chess.move_generator import MoveGenerator
         legal_moves = []
         # check all possible moves
         for i in range(-1, 2):
@@ -284,7 +284,7 @@ class King(Piece):
                     break
             # check if threatend square
             for i in range(0, 5):
-                for move in board.get_all_legal_moves(not self.is_white, True):
+                for move in MoveGenerator.get_all_legal_moves(board, not self.is_white, True):
                     if move.destination == Coordinate(position.x + i, position.y):
                         is_legal = False
             if is_legal:
@@ -300,7 +300,7 @@ class King(Piece):
                     break
             # check if threatend square
             for i in range(0, 4):
-                for move in board.get_all_legal_moves(not self.is_white, True):
+                for move in MoveGenerator.get_all_legal_moves(board, not self.is_white, True):
                     if move.destination == Coordinate(position.x - i, position.y):
                         is_legal = False
             if is_legal:

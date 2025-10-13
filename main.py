@@ -1,4 +1,6 @@
 import chess.game
+import time
+
 
 example_game = [
         "d2d4","g8f6","g1f3","g7g6",
@@ -20,14 +22,24 @@ def main():
     print("Choose a game mode:")
     print("1. Example game")
     print("2. Interactive game")
+    print("3. Test Speed")
 
-    choice = input("Enter 1 or 2: ")
+    choice = input("Enter 1 or 2 or 3: ")
 
     if choice == '1':
         game_instance.play_automated_round(example_game)
     elif choice == '2':
         game_instance.play_round()
-    else: print("Invalid choice. Exiting...")
+    elif choice == '3':
+        start = time.time()
+        board = chess.game.Board()
+        for i in range(10000):
+            chess.game.MoveGenerator.get_all_legal_moves(board, 1)
+        end = time.time()
+        print((10000/(end - start)) * 60)
+        
+    else: 
+        print("Invalid choice. Exiting...")
 
 
 
