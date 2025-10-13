@@ -7,13 +7,11 @@ class MoveGenerator:
     @staticmethod
     def get_all_legal_moves(board, is_white, prevent_recursion = False):
         legal_moves = []
-        for i in range(8):
-            for j in range(8):
-                position = Coordinate(i, j)
-                piece = board.get_piece(position)
-                if board.is_piece(position, is_white):
-                    if not prevent_recursion or not isinstance(piece, King):
-                        legal_moves += piece.get_legal_moves(board, position) # type: ignore
+        for coord, piece in (board.white_pieces if is_white else board.black_pieces).items():
+                position = coord
+                piece = piece        
+                if not prevent_recursion or not isinstance(piece, King):
+                    legal_moves += piece.get_legal_moves(board, position) # type: ignore
         # simulate moves on a new board
         if not prevent_recursion:
             legal_moves = [move for move in legal_moves if not MoveGenerator.simulate_and_check_if_check(board, move)]

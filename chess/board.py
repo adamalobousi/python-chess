@@ -22,11 +22,9 @@ class Board:
 
 
         # piece positions
-        self.black_pieces = []
-        self.white_pieces = []
-        
+        self.black_pieces = {Coordinate(x,y): self.matrix[y][x] for y in range(6,8) for x in range(8)}
+        self.white_pieces = {Coordinate(x,y): self.matrix[y][x] for y in range(0,2) for x in range(8)}
 
-            
     def __str__(self):
         result = ""
         for y in range(7, -1, -1):
@@ -72,6 +70,15 @@ class Board:
             return
         self.matrix[position.y][position.x] = piece
 
+        # update piece lists
+        self.black_pieces.pop(position, None)
+        self.white_pieces.pop(position, None)
+        if isinstance(piece, EmptyPiece):
+            return
+        if piece.is_white:
+            self.white_pieces[position] = piece
+        else:
+            self.black_pieces[position] = piece
     
     def move_helper(self, move: Move):
         self.set_piece(move.destination, self.get_piece(move.start))

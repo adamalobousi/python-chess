@@ -36,11 +36,10 @@ def main():
         for i in range(10000):
             chess.game.MoveGenerator.get_all_legal_moves(board, 1)
         end = time.time()
-        print((10000/(end - start)) * 60)
+        print("Speedtest: " + str((10000/(end - start)) * 60) + " moves per minute")
         
     else: 
         print("Invalid choice. Exiting...")
-
 
 
 if __name__ == "__main__":

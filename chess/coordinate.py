@@ -9,6 +9,9 @@ class Coordinate:
     def __eq__(self, value: object):
         return isinstance(value, Coordinate) and self.x == value.x and self.y == value.y
     
+    def __hash__(self):
+        return hash((self.x, self.y))
+    
 class Move:
     def __init__(self, start, destination):
         self.start = start
